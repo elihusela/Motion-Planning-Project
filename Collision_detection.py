@@ -9,6 +9,7 @@ class Collision_detector:
     arrangements = []
     # build an arrangement for each expanded polygon
     for polygon in obstacles:
+      print("POLYGON in CD: ", polygon)
       ms = approximated_offset_2(polygon, offset, 0.001)
       arr = Arrangement_2()
       # Arrangement for the sum
@@ -37,7 +38,7 @@ class Collision_detector:
 
     self.cspace = res
     self.pl = Arr_trapezoid_ric_point_location(self.cspace)
-
+    
   def is_edge_valid(self, curve):
     res = []
     zone(self.cspace, X_monotone_curve_2(curve.source(), curve.target()), res, self.pl)
@@ -49,7 +50,8 @@ class Collision_detector:
     return True
 
   def is_point_valid(self, p):
-    obj = self.pl.locate(p)
+    tp = TPoint(p.x(), p.y())
+    obj = self.pl.locate(tp)
     f = Face()
     if(obj.get_face(f)):
       if(f.data()>0):
